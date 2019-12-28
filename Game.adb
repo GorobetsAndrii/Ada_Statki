@@ -95,18 +95,20 @@ package body Game is
 
    end checkWin;
 
-   procedure shipExplosion(monitor : in out gameRecord; i,j : Integer; ship : who)is
+   procedure shipExplosion(monitor : in out gameRecord; i,j : in out Integer; ship : who)is
       counter : Integer := 0;
    begin
       case ship is
          when player =>
             if isEnd(monitor.playerBoard,monitor.playerBoard2Print,i,j) then
-               setX(monitor.playerBoard,monitor.playerBoard2Print,i,j,counter);
+               moveX(monitor.playerBoard,i,j);
+               getNext(monitor.playerBoard,monitor.playerBoard2Print,i,j,counter);
             end if;
 
          when computer =>
             if isEnd(monitor.computerBoard,monitor.playerBoard2Print,i,j) then
-               setX(monitor.computerBoard,monitor.PCBoard2Print,i,j,counter);
+               moveX(monitor.computerBoard,i,j);
+               getNext(monitor.computerBoard,monitor.PCBoard2Print,i,j,counter);
             end if;
       end case;
    end shipExplosion;
@@ -140,13 +142,11 @@ package body Game is
          return True;
    end isEnd;
 
-   procedure setX(b,bp : in out BoardInterface; i,j : Integer; counter : in out Integer) is
+   procedure setX(b,bp : in out BoardInterface; i,j : in out Integer; counter : in out Integer) is
       state : Boolean := True;
-      ni : Integer := i;
-      nj : Integer := j;
    begin
-      Put_Line("count " & i'Image & " " & j'Image);
-      if counter > 8 then
+
+      if counter > 32 then
          return;
       end if;
 
@@ -207,37 +207,90 @@ package body Game is
       end if;
 
       counter := counter + 1;
-
-      getNext(b,bp,ni,nj,counter);
-
    end setX;
 
    procedure getNext(b,bp : in out BoardInterface; i,j : in out Integer; counter : in out Integer) is
    begin
       if i-1 >= 0 then
          if b.board(i-1,j) = 'X' then
-            setX(b,bp,i-1,j,counter);
+            while i-1 >=0 and b.board(i,j) = 'X' loop
+               setX(b,bp,i,j,counter);
+               i := i - 1;
+            end loop;
+            return;
          end if;
       end if;
 
       if i+1 < 10 then
          if b.board(i+1,j) = 'X' then
-            setX(b,bp,i+1,j,counter);
+            while i+1 < 10 and b.board(i,j) = 'X' loop
+               setX(b,bp,i,j,counter);
+               i := i + 1;
+            end loop;
+            return;
          end if;
       end if;
 
       if j-1 >=0 then
          if b.board(i,j-1) = 'X' then
-            setX(b,bp,i,j-1,counter);
+            while j-1 >=0 and b.board(i,j) = 'X' loop
+               setX(b,bp,i,j,counter);
+               j := j - 1;
+            end loop;
+            return;
          end if;
       end if;
 
       if j+1 < 10 then
          if b.board(i,j+1) = 'X' then
-            setX(b,bp,i,j+1,counter);
+            while j+1 < 10 and b.board(i,j) = 'X' loop
+               setX(b,bp,i,j,counter);
+               j := j + 1;
+            end loop;
+            return;
          end if;
       end if;
 
+      setX(b,bp,i,j,counter);
    end getNext;
+
+   procedure moveX(b : in BoardInterface; i,j : in out Integer) is
+   begin
+      if i-1 >=0 then
+         if b.board(i-1,j) = 'X' then
+            while i-1 >=0 and b.board(i-1,j) = 'X' loop
+               i := i-1;
+            end loop;
+            return;
+         end if;
+      end if;
+
+      if i+1 < 10 then
+         if b.board(i+1,j) = 'X' then
+            while i+1 < 10 and b.board(i+1,j) = 'X' loop
+               i := i+1;
+            end loop;
+            return;
+         end if;
+      end if;
+
+      if j-1 >= 0 then
+         if b.board(i,j-1) = 'X' then
+            while j-1 >=0 and b.board(i,j-1) = 'X' loop
+               j := j-1;
+            end loop;
+            return;
+         end if;
+      end if;
+
+      if j+1 < 10 then
+         if b.board(i,j+1) = 'X' then
+            while j+1 < 10 and b.board(i,j+1) = 'X' loop
+               j := j+1;
+            end loop;
+            return;
+         end if;
+      end if;
+   end moveX;
 
 end Game;
