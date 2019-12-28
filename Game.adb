@@ -102,13 +102,13 @@ package body Game is
          when player =>
             if isEnd(monitor.playerBoard,monitor.playerBoard2Print,i,j) then
                moveX(monitor.playerBoard,i,j);
-               getNext(monitor.playerBoard,monitor.playerBoard2Print,i,j,counter);
+               set(monitor.playerBoard,monitor.playerBoard2Print,i,j);
             end if;
 
          when computer =>
             if isEnd(monitor.computerBoard,monitor.playerBoard2Print,i,j) then
                moveX(monitor.computerBoard,i,j);
-               getNext(monitor.computerBoard,monitor.PCBoard2Print,i,j,counter);
+               set(monitor.computerBoard,monitor.PCBoard2Print,i,j);
             end if;
       end case;
    end shipExplosion;
@@ -142,14 +142,9 @@ package body Game is
          return True;
    end isEnd;
 
-   procedure setX(b,bp : in out BoardInterface; i,j : in out Integer; counter : in out Integer) is
+   procedure setX(b,bp : in out BoardInterface; i,j : in out Integer) is
       state : Boolean := True;
    begin
-
-      if counter > 32 then
-         return;
-      end if;
-
       if i-1 >= 0 and j-1 >= 0 then
          if b.board(i-1,j-1) /= 'X' then
             b.board(i-1,j-1) := '+';
@@ -205,16 +200,14 @@ package body Game is
             bp.board(i+1,j+1) := '+';
          end if;
       end if;
-
-      counter := counter + 1;
    end setX;
 
-   procedure getNext(b,bp : in out BoardInterface; i,j : in out Integer; counter : in out Integer) is
+   procedure set(b,bp : in out BoardInterface; i,j : in out Integer) is
    begin
       if i-1 >= 0 then
          if b.board(i-1,j) = 'X' then
             while i-1 >=0 and b.board(i,j) = 'X' loop
-               setX(b,bp,i,j,counter);
+               setX(b,bp,i,j);
                i := i - 1;
             end loop;
             return;
@@ -224,7 +217,7 @@ package body Game is
       if i+1 < 10 then
          if b.board(i+1,j) = 'X' then
             while i+1 < 10 and b.board(i,j) = 'X' loop
-               setX(b,bp,i,j,counter);
+               setX(b,bp,i,j);
                i := i + 1;
             end loop;
             return;
@@ -234,7 +227,7 @@ package body Game is
       if j-1 >=0 then
          if b.board(i,j-1) = 'X' then
             while j-1 >=0 and b.board(i,j) = 'X' loop
-               setX(b,bp,i,j,counter);
+               setX(b,bp,i,j);
                j := j - 1;
             end loop;
             return;
@@ -244,15 +237,15 @@ package body Game is
       if j+1 < 10 then
          if b.board(i,j+1) = 'X' then
             while j+1 < 10 and b.board(i,j) = 'X' loop
-               setX(b,bp,i,j,counter);
+               setX(b,bp,i,j);
                j := j + 1;
             end loop;
             return;
          end if;
       end if;
 
-      setX(b,bp,i,j,counter);
-   end getNext;
+      setX(b,bp,i,j);
+   end set;
 
    procedure moveX(b : in BoardInterface; i,j : in out Integer) is
    begin
