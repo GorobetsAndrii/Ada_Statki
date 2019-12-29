@@ -10,6 +10,7 @@ begin
    while True loop
 
       state := shot(panel,choice);
+      Put (ASCII.ESC & "[2J");
       display(panel);
 
 
@@ -27,6 +28,4 @@ begin
          exit;
       end if;
    end loop;
-
-
 end Main;
