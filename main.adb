@@ -9,13 +9,10 @@ procedure Main is
 begin
    display(panel);
    while i < 5 loop
-      if choice = player then
-         state := shot(panel,choice);
-         display(panel);
-      else
-         state := shot(panel,choice);
-         display(panel);
-      end if;
+
+      state := shot(panel,choice);
+      display(panel);
+
 
       if state = False and choice = player then
          choice := computer;
