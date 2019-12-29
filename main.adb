@@ -4,11 +4,10 @@ use Ada.Text_IO, GameUnit,Game;
 procedure Main is
    panel : gameRecord;
    choice : who := player;
-   i : Integer := 0;
    state : Boolean := False;
 begin
    display(panel);
-   while i < 5 loop
+   while True loop
 
       state := shot(panel,choice);
       display(panel);
@@ -20,7 +19,13 @@ begin
          choice := player;
       end if;
 
-      i := i + 1;
+      if checkWin(panel,computer) then
+         Put_Line("Computer win");
+         exit;
+      elsif checkWin(panel,player) then
+         Put_Line("Player win");
+         exit;
+      end if;
    end loop;
 
 

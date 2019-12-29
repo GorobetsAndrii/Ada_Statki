@@ -9,7 +9,7 @@ package body Game is
       Put_Line("");
 
       Put_Line("Computer:");
-      print(monitor.computerBoard);
+      print(monitor.PCBoard2Print);
       Put_Line("");
    end display;
 
@@ -249,19 +249,14 @@ package body Game is
 
    procedure moveX(b : in BoardInterface; i,j : in out Integer) is
    begin
+
       if i-1 >=0 then
          if b.board(i-1,j) = 'X' then
             while i-1 >=0 and b.board(i-1,j) = 'X' loop
                i := i-1;
-            end loop;
-            return;
-         end if;
-      end if;
-
-      if i+1 < 10 then
-         if b.board(i+1,j) = 'X' then
-            while i+1 < 10 and b.board(i+1,j) = 'X' loop
-               i := i+1;
+               if i-1 < 0 then
+                  exit;
+               end if;
             end loop;
             return;
          end if;
@@ -269,21 +264,16 @@ package body Game is
 
       if j-1 >= 0 then
          if b.board(i,j-1) = 'X' then
-            while j-1 >=0 and b.board(i,j-1) = 'X' loop
+            while j-1 >= 0 and b.board(i,j-1) = 'X' loop
                j := j-1;
+               if j-1 < 0 then
+                  exit;
+               end if;
             end loop;
             return;
          end if;
       end if;
 
-      if j+1 < 10 then
-         if b.board(i,j+1) = 'X' then
-            while j+1 < 10 and b.board(i,j+1) = 'X' loop
-               j := j+1;
-            end loop;
-            return;
-         end if;
-      end if;
    end moveX;
 
 end Game;
