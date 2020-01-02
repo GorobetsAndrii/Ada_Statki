@@ -204,6 +204,7 @@ package body Game is
 
    procedure set(b,bp : in out BoardInterface; i,j : in out Integer) is
    begin
+
       if i-1 >= 0 then
          if b.board(i-1,j) = 'X' then
             while i-1 >=0 and b.board(i,j) = 'X' loop
