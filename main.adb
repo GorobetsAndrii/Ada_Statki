@@ -5,7 +5,6 @@ procedure Main is
    panel : gameRecord;
    choice : who := player;
    state : Boolean := False;
-   i : Integer := 0;
 
    task type monitor is
       entry displayBoard;
@@ -35,7 +34,7 @@ procedure Main is
    task body play is
    begin
       display(panel);
-      while i < 5 loop
+      while True loop
 
          state := shot(panel,choice);
          Put (ASCII.ESC & "[2J");
@@ -57,7 +56,6 @@ procedure Main is
             mon.printWinner("Player win");
             exit;
          end if;
-         i := i + 1;
       end loop;
    end play;
 
