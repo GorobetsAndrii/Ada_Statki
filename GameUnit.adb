@@ -81,9 +81,9 @@ package body GameUnit is
       i : Integer := 0;
       j : Integer := 0;
       state : Boolean := False;
-      X : Integer := 0;
+      Y : Integer := 0;
    begin
-      while X < 2 loop
+      while Y < 2 loop
          generateXY(i,j);
          state := False;
 
@@ -120,7 +120,7 @@ package body GameUnit is
          end if;
 
          if state then
-            X := X + 1;
+            Y := Y + 1;
          end if;
 
       end loop;
@@ -131,9 +131,9 @@ package body GameUnit is
       i : Integer := 0;
       j : Integer := 0;
       state : Boolean := False;
-      X : Integer := 0;
+      Y : Integer := 0;
    begin
-      while X < 3 loop
+      while Y < 3 loop
          generateXY(i,j);
          state := False;
 
@@ -170,7 +170,7 @@ package body GameUnit is
          end if;
 
          if state then
-            X := X + 1;
+            Y := Y + 1;
          end if;
 
       end loop;
