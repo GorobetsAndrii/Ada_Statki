@@ -45,11 +45,27 @@ package body Game is
                   return False;
                end if;
          when player =>
-            Put("Row: ");
-            Get(c);
-            Put("Column: ");
-            Ada.Integer_Text_IO.Get(j);
-            i := char2num(c);
+            while True loop
+               Put("Row: ");
+               Get(c);
+               i := char2num(c);
+               if i < 0 or i > 9 then
+                  Put_Line("Wrong data entry ");
+               else
+                  exit;
+               end if;
+            end loop;
+
+            while True loop
+               Put("Column: ");
+               Get(c);
+               j := Character'Pos(c) - 48;
+               if j < 0 or j > 9 then
+                  Put_Line("Wrong data entry");
+               else
+                  exit;
+               end if;
+            end loop;
 
             if monitor.computerBoard.board(i,j) = '#' then
                monitor.computerBoard.board(i,j) := 'X';

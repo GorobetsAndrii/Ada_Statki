@@ -56,6 +56,7 @@ procedure Main is
             mon.printWinner("Player win");
             exit;
          end if;
+
       end loop;
    end play;
 
